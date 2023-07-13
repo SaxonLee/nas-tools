@@ -14,7 +14,7 @@ from app.media.meta import MetaInfo
 from app.utils import RequestUtils
 from app.utils.types import MediaType
 import os
-dbphapi = os.environ.get('dbphapi')
+dbphapi = os.environ.get('DB_PH_API')
 if dbphapi:
     log.info(f"douban proxy API: {dbphapi}")
 else:
