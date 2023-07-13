@@ -13,7 +13,13 @@ from app.media.doubanapi import DoubanApi, DoubanWeb
 from app.media.meta import MetaInfo
 from app.utils import RequestUtils
 from app.utils.types import MediaType
-
+import os
+dbphapi = os.environ.get('dbphapi')
+if dbphapi:
+    log.info(f"douban proxy API: {dbphapi}")
+else:
+    dbphapi="https://www.thebigpicture.top/api/dbph.php?cover="
+    log.info(f"douban proxy API is not set, use default : {dbphapi}")
 lock = Lock()
 
 
@@ -408,15 +414,15 @@ class DouBan:
             if mtype == MediaType.MOVIE:
                 type_str = "MOV"
                 # 海报
-                poster_path = info.get('cover', {}).get("url")
+                poster_path = dbphapi+info.get('cover', {}).get("url")
                 if not poster_path:
-                    poster_path = info.get('cover_url')
+                    poster_path = dbphapi+info.get('cover_url')
                 if not poster_path:
-                    poster_path = info.get('pic', {}).get("large")
+                    poster_path = dbphapi+info.get('pic', {}).get("large")
             else:
                 type_str = "TV"
                 # 海报
-                poster_path = info.get('pic', {}).get("normal")
+                poster_path = dbphapi+info.get('pic', {}).get("normal")
 
             # 简介
             overview = info.get("card_subtitle") or ""
